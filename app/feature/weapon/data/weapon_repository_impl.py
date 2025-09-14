@@ -1,7 +1,7 @@
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.core.database.weapon import WeaponEntity
+from app.core.database.weapon import WeaponEntity, WeaponCategoryEntity
 from .weapon_repository import WeaponRepository
 
 
@@ -14,4 +14,10 @@ class WeaponRepositoryImpl(WeaponRepository):
         return result.first()
 
     async def get_weapons_by_category(self, category_id: int) -> list[WeaponEntity]:
-        pass
+        result = await self.db.exec(select(WeaponCategoryEntity).where(WeaponCategoryEntity.id == category_id))
+        category = result.first()
+
+        if category is None:
+            return []
+
+        return category.weapons

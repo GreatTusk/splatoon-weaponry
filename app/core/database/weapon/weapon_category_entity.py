@@ -1,4 +1,6 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
+
+from . import WeaponEntity
 
 
 class WeaponCategoryEntity(SQLModel, table=True):
@@ -6,3 +8,5 @@ class WeaponCategoryEntity(SQLModel, table=True):
 
     id: int | None = Field(primary_key=True)
     name: str
+
+    weapons: list["WeaponEntity"] = Relationship(back_populates="category")
