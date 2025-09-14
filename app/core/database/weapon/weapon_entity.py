@@ -1,6 +1,9 @@
+from typing import TYPE_CHECKING
+
 from sqlmodel import SQLModel, Field, Relationship
 
-from . import WeaponCategoryEntity
+if TYPE_CHECKING:
+    from . import WeaponCategoryEntity
 
 
 class WeaponEntity(SQLModel, table=True):
@@ -10,4 +13,4 @@ class WeaponEntity(SQLModel, table=True):
     name: str = Field(unique=True)
     category_id: int = Field(foreign_key="weapon_category.id")
 
-    category: WeaponCategoryEntity = Relationship(back_populates="weapons")
+    category: "WeaponCategoryEntity" = Relationship(back_populates="weapons")
