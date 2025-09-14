@@ -28,6 +28,7 @@ services:
       - .env.dev
     volumes:
       - ./alembic/versions:/code/alembic/versions
+      - ./app:/code/app
     restart: unless-stopped
 
 volumes:
