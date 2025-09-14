@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from .model.get_weapon_response import GetWeaponResponse
+from app.feature.weapon.domain.model.weapon_filter import WeaponFilter
 
 
 class WeaponService(ABC):
@@ -9,5 +10,5 @@ class WeaponService(ABC):
         pass
 
     @abstractmethod
-    async def get_weapons_by_category(self, category_id: int) -> list[GetWeaponResponse]:
+    async def get_weapons(self, filters: WeaponFilter) -> list[GetWeaponResponse]:
         pass

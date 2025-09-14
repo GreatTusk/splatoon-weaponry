@@ -4,6 +4,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.database.weapon import WeaponEntity
 from .weapon_repository import WeaponRepository
+from app.feature.weapon.domain.model.weapon_filter import WeaponFilter
 
 
 class WeaponRepositoryImpl(WeaponRepository):
@@ -13,15 +14,18 @@ class WeaponRepositoryImpl(WeaponRepository):
     async def get_weapon_by_id(self, weapon_id: int) -> WeaponEntity | None:
         result = await self.db.exec(
             select(WeaponEntity)
-            .options(joinedload(WeaponEntity.category))
             .where(WeaponEntity.id == weapon_id)
+            .options(joinedload(WeaponEntity.category))
         )
         return result.first()
 
-    async def get_weapons_by_category(self, category_id: int) -> list[WeaponEntity]:
-        result = await self.db.exec(
-            select(WeaponEntity)
-            .options(joinedload(WeaponEntity.category))
-            .where(WeaponEntity.category_id == category_id)
-        )
+    async def get_weapons(self, filters: WeaponFilter) -> list[WeaponEntity]:
+        statement = select(WeaponEntity)
+
+        if filters.category_id:
+            statement = statement.where(WeaponEntity.category_id == filters.category_id)
+
+        statement = statement.limit(filters.limit).offset(filters.offset).options(joinedload(WeaponEntity.category))
+
+        result = await self.db.exec(statement)
         return list(result.all())

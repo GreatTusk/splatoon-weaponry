@@ -1,5 +1,8 @@
-from fastapi import APIRouter
+from typing import Annotated
 
+from fastapi import APIRouter, Query
+
+from app.feature.weapon.domain.model.weapon_filter import WeaponFilter
 from app.feature.weapon.dependencies import WeaponServiceDep
 from app.feature.weapon.domain.model.get_weapon_response import GetWeaponResponse
 
@@ -12,5 +15,5 @@ async def get_weapon_by_id(weapon_id: int, weapon_service: WeaponServiceDep):
 
 
 @router.get("/", response_model=list[GetWeaponResponse])
-async def get_weapons(category_id: int, weapon_service: WeaponServiceDep):
-    return await weapon_service.get_weapons_by_category(category_id=category_id)
+async def get_weapons(filters: Annotated[WeaponFilter, Query()], weapon_service: WeaponServiceDep):
+    return await weapon_service.get_weapons(filters=filters)

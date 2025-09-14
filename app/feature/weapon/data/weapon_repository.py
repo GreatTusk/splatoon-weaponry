@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from app.core.database.weapon import WeaponEntity
+from app.feature.weapon.domain.model.weapon_filter import WeaponFilter
 
 
 class WeaponRepository(ABC):
@@ -9,5 +10,5 @@ class WeaponRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_weapons_by_category(self, category_id: int) -> list[WeaponEntity]:
+    async def get_weapons(self,  filters: WeaponFilter) -> list[WeaponEntity]:
         pass

@@ -1,5 +1,6 @@
 from .model.get_weapon_response import GetWeaponResponse
 from .weapon_service import WeaponService
+from app.feature.weapon.domain.model.weapon_filter import WeaponFilter
 from ..data import WeaponRepository
 
 
@@ -14,8 +15,8 @@ class WeaponServiceImpl(WeaponService):
             return None
         return GetWeaponResponse(id=weapon.id, name=weapon.name, category=weapon.category.name)
 
-    async def get_weapons_by_category(self, category_id: int) -> list[GetWeaponResponse]:
-        weapons = await self.weapon_repository.get_weapons_by_category(category_id=category_id)
+    async def get_weapons(self, filters: WeaponFilter) -> list[GetWeaponResponse]:
+        weapons = await self.weapon_repository.get_weapons(filters=filters)
         return [
             GetWeaponResponse(id=weapon.id, name=weapon.name, category=weapon.category.name)
             for weapon in weapons
