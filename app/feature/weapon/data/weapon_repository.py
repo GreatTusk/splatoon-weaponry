@@ -5,7 +5,7 @@ from app.core.database.weapon import WeaponEntity
 
 class WeaponRepository(ABC):
     @abstractmethod
-    async def get_weapon_by_id(self, weapon_id: int) -> WeaponEntity:
+    async def get_weapon_by_id(self, weapon_id: int) -> WeaponEntity | None:
         pass
 
     @abstractmethod

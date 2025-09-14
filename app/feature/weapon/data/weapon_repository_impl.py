@@ -9,7 +9,7 @@ class WeaponRepositoryImpl(WeaponRepository):
     def __init__(self, session: AsyncSession):
         self.db = session
 
-    async def get_weapon_by_id(self, weapon_id: int) -> WeaponEntity:
+    async def get_weapon_by_id(self, weapon_id: int) -> WeaponEntity | None:
         result = await self.db.exec(select(WeaponEntity).where(WeaponEntity.id == weapon_id))
         return result.first()
 
