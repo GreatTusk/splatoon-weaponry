@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, TypeAlias
 
 from fastapi import Depends
 from sqlmodel.ext.asyncio.session import AsyncSession
